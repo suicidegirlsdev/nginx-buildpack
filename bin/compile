@@ -7,9 +7,9 @@ main() {
     ENV_DIR=$3
     BUILDPACK_DIR=$(readlink -f $(dirname $(type -P "$0"))/..)
 
-    NGINX_VERSION=1.5.12
-    NGINX_PCRE_VERSION=8.34
-    NGINX_HEADERS_MORE_VERSION=0.25
+    NGINX_VERSION=1.11.5
+    NGINX_PCRE_VERSION=8.39
+    NGINX_HEADERS_MORE_VERSION=0.31
 
     set -eo pipefail
 
@@ -62,7 +62,7 @@ build-nginx() {
         curl -#L $pcre_url | tar xj
         curl -#L $headers_more_url | tar xz
 
-        patch -p1 < $BUILDPACK_DIR/nginx-1.5.12-heroku.patch
+        patch -p0 < $BUILDPACK_DIR/nginx-${NGINX_VERSION}-heroku.patch
 
         CFLAGS="-O3 -pipe" ./configure \
             --prefix=$nginx_install_dir \

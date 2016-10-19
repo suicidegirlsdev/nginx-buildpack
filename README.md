@@ -18,7 +18,7 @@ However there are some significant differences:
 * NGINX is built during initial deployment, rather than using a prebuilt binary. The binary is cached between deploys.
 * NGINX logs are sent directly to stderr rather than to the filesystem. This results in faster log delivery to Heroku logplex, and doesn't gradually fill the filesystem.
 * Signals are handled gracefully by the wrapper script, allowing both the app and NGINX to stop properly on dyno shutdown.
-* `PORT` is overridden to refer to the UNIX domain socket, so the application can detect whether it's running under NGINX or directly. This is especially because NGINX can be enabled or disabled at run-time by toggling `NGINX_ENABLED`.
+* `BIND` is set to refer to the UNIX domain socket, so the application can detect whether it's running under NGINX or directly. This is especially because NGINX can be enabled or disabled at run-time by toggling `NGINX_ENABLED`.
 
 Versions
 --------
@@ -41,7 +41,7 @@ Logging
 NGINX will output the following style of logs:
 
 ```
-measure.nginx.service=0.007 request_id=e2c79e86b3260b9c703756ec93f8a66d
+measure#nginx.service=0.007 request_id=e2c79e86b3260b9c703756ec93f8a66d
 ```
 
 You can correlate this id with your Heroku router logs:

@@ -31,9 +31,9 @@ run-nginx() {
 
     # Wait for app to start.
     if is-enabled "$NGINX_WAIT_ENABLED"; then
-        while [[ ! -e "$NGINX_WAIT_FILE" ]]; do
+        while ! is-up "$NGINX_SOCKET"; do
             at app-waiting
-            sleep 1
+            sleep 0.5
         done
         at app-initialized
     fi
@@ -145,7 +145,6 @@ set-vars() {
     : ${NGINX_ENABLED:=1}
     : ${NGINX_LISTEN:=$PORT}
     : ${NGINX_SOCKET:=/tmp/nginx.socket}
-    : ${NGINX_WAIT_FILE:=$NGINX_SOCKET}
     : ${NGINX_WAIT_ENABLED:=1}
     : ${NGINX_WORKERS:=4}
     NGINX_GZIP_ENABLED=$(norm-enabled "${NGINX_GZIP_ENABLED:-1}")
@@ -189,6 +188,13 @@ is-enabled() {
 
 norm-enabled() {
     is-enabled "$1" && echo 1 || echo 0
+}
+
+is-up() {
+    (
+        declare socket=${1#unix:}
+        printf 'HEAD / HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n' | nc -U "$socket"
+    ) >/dev/null 2>/dev/null
 }
 
 [[ "$0" != "$BASH_SOURCE" ]] || main "$@"

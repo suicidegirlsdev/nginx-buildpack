@@ -31,10 +31,11 @@ run-nginx() {
 
     # Wait for app to start.
     if is-enabled "$NGINX_WAIT_ENABLED"; then
-        while ! is-up "$NGINX_SOCKET"; do
-            at app-waiting
-            sleep 0.5
-        done
+        # disable app checking
+        # while ! is-up "$NGINX_SOCKET"; do
+        #     at app-waiting
+        #     sleep 0.5
+        # done
         at app-initialized
     fi
 

@@ -6,7 +6,7 @@ main() {
     ENV_DIR=$3
     BUILDPACK_DIR=$(readlink -f $(dirname $(type -P "$0"))/..)
 
-    NGINX_VERSION=1.11.8
+    NGINX_VERSION=1.11.9
     NGINX_PCRE_VERSION=8.40
     NGINX_HEADERS_MORE_VERSION=0.32
 

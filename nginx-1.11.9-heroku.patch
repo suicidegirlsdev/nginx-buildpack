@@ -1,17 +1,17 @@
---- src/http/modules/ngx_http_log_module.c.heroku	2017-01-26 09:58:31.000000000 +0000
-+++ src/http/modules/ngx_http_log_module.c	2017-01-24 14:02:19.000000000 +0000
-@@ -1260,13 +1260,7 @@
+--- src/http/modules/ngx_http_log_module.c	2017-01-24 14:02:19.000000000 +0000
++++ src/http/modules/ngx_http_log_module.c.heroku	2017-01-26 09:58:31.000000000 +0000
+@@ -1260,7 +1260,13 @@
      n = ngx_http_script_variables_count(&value[1]);
  
      if (n == 0) {
--        name = value[1];
--
--        if (ngx_strcmp(value[1].data, "error") == 0) {
--            ngx_str_null(&name);
--        }
--
--        log->file = ngx_conf_open_file(cf->cycle, &name);
-+        log->file = ngx_conf_open_file(cf->cycle, &value[1]);
+-        log->file = ngx_conf_open_file(cf->cycle, &value[1]);
++        name = value[1];
++
++        if (ngx_strcmp(value[1].data, "error") == 0) {
++            ngx_str_null(&name);
++        }
++
++        log->file = ngx_conf_open_file(cf->cycle, &name);
          if (log->file == NULL) {
              return NGX_CONF_ERROR;
          }

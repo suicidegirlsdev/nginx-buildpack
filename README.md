@@ -27,7 +27,7 @@ Versions
 * [PCRE](http://sourceforge.net/projects/pcre/) 8.40
 * [ngx_headers_more](https://github.com/agentzh/headers-more-nginx-module) 0.32
 
-These versions are tunable by setting `NGINX_VERSION`, `NGINX_PCRE_VERSION` and `NGINX_HEADERS_MORE_VERSION` in the app config, so you can update even if the buildpack hasn't been updated yet. However, if changing the `NGINX_VERSION` there **must** be a corresponding nginx-<version>-heroku.patch patch file in the project (for the logging patch). You can create one by downloading the NGINX source and finding the logging module source file (src/http/modules/ngx_http_log_module.c). Create a copy (ie: ngx_http_log_module_heroku.c) and modify line 1304 (as of release 1.14.0; will likely be different in later releases) from this:
+These versions are tunable by setting `NGINX_VERSION`, `NGINX_PCRE_VERSION` and `NGINX_HEADERS_MORE_VERSION` in the app config, so you can update even if the buildpack hasn't been updated yet. However, if changing the `NGINX_VERSION` there **must** be a corresponding `nginx-<version>-heroku.patch` patch file in the project (for the logging patch). You can create one by downloading the NGINX source and finding the logging module source file (src/http/modules/ngx_http_log_module.c). Create a copy (ie: ngx_http_log_module_heroku.c) and modify line 1304 (as of release 1.14.0; will likely be different in later releases) from this:
 ```
 if (n == 0) {
     log->file = ngx_conf_open_file(cf->cycle, &value[1]);
@@ -45,7 +45,9 @@ if (n == 0) {
     log->file = ngx_conf_open_file(cf->cycle, &name);
 ```
 and then create a patch from the changes (on OSX):
-``` diff -u src/http/modules/ngx_http_log_module.c src/http/modules/ngx_http_log_module_heroku.c > nginx-<version>-heroku.patch ```
+```
+diff -u src/http/modules/ngx_http_log_module.c src/http/modules/ngx_http_log_module_heroku.c > nginx-<version>-heroku.patch
+```
 WARNING: The example above includes the full path to the files on purpose; if you create the patch locally, your patch file will also use local paths and fail. In that case you can just manually fix the path in the patch file directly, to add in the path.
 
 Requirements

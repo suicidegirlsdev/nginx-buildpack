@@ -1,14 +1,6 @@
 --- ngx_http_log_module.c	2018-04-17 08:22:36.000000000 -0700
-+++ ngx_http_log_module.c.heroku	2018-09-17 18:14:23.000000000 -0700
-@@ -2,6 +2,7 @@
- /*
-  * Copyright (C) Igor Sysoev
-  * Copyright (C) Nginx, Inc.
-+ * Modified to allow having access logs go to error log (for use with Heroku)
-  */
- 
- 
-@@ -1301,7 +1302,13 @@
++++ ngx_http_log_module.c.heroku	2018-09-17 18:28:20.000000000 -0700
+@@ -1301,7 +1301,13 @@
      n = ngx_http_script_variables_count(&value[1]);
  
      if (n == 0) {

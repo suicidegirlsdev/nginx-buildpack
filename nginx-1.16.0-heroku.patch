@@ -1,0 +1,17 @@
+--- src/http/modules/ngx_http_log_module.c	2019-04-23 06:12:58.000000000 -0700
++++ src/http/modules/ngx_http_log_module_heroku.c	2019-06-18 22:06:37.000000000 -0700
+@@ -1301,7 +1301,13 @@
+     n = ngx_http_script_variables_count(&value[1]);
+ 
+     if (n == 0) {
+-        log->file = ngx_conf_open_file(cf->cycle, &value[1]);
++        name = value[1];
++
++        if (ngx_strcmp(value[1].data, "error") == 0) {
++            ngx_str_null(&name);
++        }
++
++        log->file = ngx_conf_open_file(cf->cycle, &name);
+         if (log->file == NULL) {
+             return NGX_CONF_ERROR;
+         }

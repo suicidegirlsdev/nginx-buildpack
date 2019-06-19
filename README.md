@@ -23,9 +23,9 @@ However there are some significant differences:
 Versions
 --------
 
-* [NGINX](http://nginx.org/) 1.11.8
-* [PCRE](http://sourceforge.net/projects/pcre/) 8.40
-* [ngx_headers_more](https://github.com/agentzh/headers-more-nginx-module) 0.32
+* [NGINX](http://nginx.org/) 1.16.0
+* [PCRE](http://sourceforge.net/projects/pcre/) 8.43
+* [ngx_headers_more](https://github.com/agentzh/headers-more-nginx-module) 0.33
 
 These versions are tunable by setting `NGINX_VERSION`, `NGINX_PCRE_VERSION` and `NGINX_HEADERS_MORE_VERSION` in the app config, so you can update even if the buildpack hasn't been updated yet. However, if changing the `NGINX_VERSION` there **must** be a corresponding `nginx-<version>-heroku.patch` patch file in the project (for the logging patch). You can create one by downloading the NGINX source and finding the logging module source file (src/http/modules/ngx_http_log_module.c). Create a copy (ie: ngx_http_log_module_heroku.c) and modify line 1304 (as of release 1.14.0; will likely be different in later releases) from this:
 ```
